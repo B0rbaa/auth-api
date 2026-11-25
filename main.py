@@ -6,10 +6,11 @@ app = FastAPI(title="API de Autenticação")
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
-#USUÁRIOS NA MEMÓRIA
+#Usuários salvos na memória
 
 usuarios = []
 
+#Define o que o cadastro exige e o FastAPI valida o cadastro(auth/register) antes da função rodar
 class UsuarioCadastro(BaseModel):
     email: EmailStr
     senha: str
