@@ -63,3 +63,40 @@ def test_login_com_sucesso(client):
 
     assert resposta.status_code == 200
     assert "access_token" in resposta.json()
+
+def test_login_senha_errada(client):
+    dados = {"email": "teste@gmail.com", "senha": "minhasenha123"}
+
+    client.post("/auth/register", json=dados)
+    resposta = client.post(
+    "/auth/login",
+    json={"email": dados["email"], "senha": "senhaerrada"},
+    )
+
+    assert resposta.status_code == 401
+    assert "access_token" not in resposta.json()
+
+def test_rota_protegida_sem_token(client):
+    resposta = client.get("/users/me")
+
+    assert resposta.status_code == 401
+
+
+def test_rota_protegida_com_token(client):
+    dados = {"email": "teste@gmail.com", "senha": "minhasenha123"}
+
+    # 1. Cadastra e faz o login
+    client.post("/auth/register", json=dados)
+    resposta_login = client.post("/auth/login", json=dados)
+
+    # 2. Pega o token que a API devolveu
+    token = resposta_login.json()["access_token"]
+
+    # 3. Chama a rota protegida mandando o token no cabeçalho
+    resposta = client.get(
+        "/users/me",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert resposta.status_code == 200
+    assert resposta.json()["email"] == "teste@gmail.com"
