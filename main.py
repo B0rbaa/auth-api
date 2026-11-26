@@ -5,6 +5,8 @@ from pydantic import BaseModel, EmailStr
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
 import jwt
+from fastapi import Depends
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 # Lê as variáveis do arquivo .env
 load_dotenv()
@@ -25,6 +27,21 @@ def criar_token(email: str) -> str:
     expira = datetime.now(timezone.utc) + timedelta(minutes=30)
     dados = {"sub": email, "exp": expira}
     return jwt.encode(dados, SECRET_KEY, algorithm=ALGORITHM)
+
+
+#Confere o token
+
+seguranca = HTTPBearer()
+
+
+def usuario_atual(credenciais: HTTPAuthorizationCredentials = Depends(seguranca)) -> str:
+    try:
+        dados = jwt.decode(credenciais.credentials, SECRET_KEY, algorithms=[ALGORITHM])
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expirado")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Token inválido")
+    return dados["sub"]
 
 
 app = FastAPI(title="API de Autenticação")
@@ -71,3 +88,7 @@ def login(dados: UsuarioLogin):
             return {"access_token": criar_token(dados.email), "token_type": "bearer"}
 
     raise HTTPException(status_code=401, detail="E-mail ou senha incorretos")
+
+@app.get("/users/me")
+def perfil(email: str = Depends(usuario_atual)):
+    return {"email": email}
