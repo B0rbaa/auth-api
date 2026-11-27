@@ -34,8 +34,8 @@ Projeto de portfólio, em desenvolvimento, criado para praticar back end: segura
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/B0rbaa/auth-api.git
-cd auth-api
+git clone https://github.com/B0rbaa/api-de-autenticacao.git
+cd api-de-autenticacao
 ```
 
 ### 2. Criar e ativar o ambiente virtual
@@ -187,6 +187,8 @@ api-de-autenticacao/
 ├── usuarios.db    # banco SQLite criado ao rodar (não vai para o GitHub)
 └── README.md
 ```
+
+![Documentação interativa da API (Swagger)](imagens/swagger.png)
 
 ## Autor
 
