@@ -179,7 +179,7 @@ Cenários cobertos:
 ## Estrutura do projeto
 
 ```
-auth-api/
+api-de-autenticacao/
 ├── main.py        # API, modelos e rotas
 ├── test_api.py    # testes automatizados
 ├── .env           # chave secreta (não vai para o GitHub)
