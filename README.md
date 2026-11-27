@@ -4,6 +4,10 @@ API REST de autenticação feita com **Python** e **FastAPI**. Ela cadastra usu�
 
 Projeto de portfólio, em desenvolvimento, criado para praticar back end: segurança de senhas, autenticação com token, persistência de dados e testes.
 
+
+![Documentação interativa da API (Swagger)](imagens/swagger.png)
+
+
 ## Funcionalidades
 
 - Cadastro de usuário com validação de e-mail
@@ -187,8 +191,6 @@ api-de-autenticacao/
 ├── usuarios.db    # banco SQLite criado ao rodar (não vai para o GitHub)
 └── README.md
 ```
-
-![Documentação interativa da API (Swagger)](imagens/swagger.png)
 
 ## Autor
 
